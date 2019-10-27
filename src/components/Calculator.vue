@@ -1,12 +1,12 @@
 <template>
   <div class="calculator">
     <div class="calculator-input">
-      <input class="input" type="text"/>
+      <input class="input" type="text" v-model="input"/>
     </div>
     <div class="buttons">
       <div class="row">
         <div class="col-1">
-          <button class="btn">AC</button>
+          <button class="btn" @click="cleanInput()">AC</button>
         </div>
         <div class="col-1">
           <button class="btn">+/-</button>
@@ -15,60 +15,60 @@
           <button class="btn" disabled>%</button>
         </div>
         <div class="col-1">
-          <button class="btn btn-control">/</button>
+          <button class="btn btn-control" @click="addDigit('/')">/</button>
         </div>
       </div>
       <div class="row">
         <div class="col-1">
-          <button class="btn">7</button>
+          <button class="btn" @click="addDigit('7')">7</button>
         </div>
         <div class="col-1">
-          <button class="btn">8</button>
+          <button class="btn" @click="addDigit('8')">8</button>
         </div>
         <div class="col-1">
-          <button class="btn">9</button>
+          <button class="btn" @click="addDigit('9')">9</button>
         </div>
         <div class="col-1">
-          <button class="btn btn-control">x</button>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-1">
-          <button class="btn">4</button>
-        </div>
-        <div class="col-1">
-          <button class="btn">5</button>
-        </div>
-        <div class="col-1">
-          <button class="btn">6</button>
-        </div>
-        <div class="col-1">
-          <button class="btn btn-control">-</button>
+          <button class="btn btn-control" @click="addDigit('*')">x</button>
         </div>
       </div>
       <div class="row">
         <div class="col-1">
-          <button class="btn">1</button>
+          <button class="btn" @click="addDigit('4')">4</button>
         </div>
         <div class="col-1">
-          <button class="btn">2</button>
+          <button class="btn" @click="addDigit('5')">5</button>
         </div>
         <div class="col-1">
-          <button class="btn">3</button>
+          <button class="btn" @click="addDigit('6')">6</button>
         </div>
         <div class="col-1">
-          <button class="btn btn-control">+</button>
+          <button class="btn btn-control" @click="addDigit('-')">-</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-1">
+          <button class="btn" @click="addDigit('1')">1</button>
+        </div>
+        <div class="col-1">
+          <button class="btn" @click="addDigit('2')">2</button>
+        </div>
+        <div class="col-1">
+          <button class="btn" @click="addDigit('3')">3</button>
+        </div>
+        <div class="col-1">
+          <button class="btn btn-control" @click="addDigit('+')">+</button>
         </div>
       </div>
       <div class="row">
         <div class="col-2">
-          <button class="btn">0</button>
+          <button class="btn" @click="addDigit('0')">0</button>
         </div>
         <div class="col-1">
-          <button class="btn">,</button>
+          <button class="btn" @click="addDigit('.')">,</button>
         </div>
         <div class="col-1">
-          <button class="btn btn-control">=</button>
+          <button class="btn btn-control" @click="calculate()">=</button>
         </div>
       </div>
     </div>
@@ -77,7 +77,23 @@
 
 <script>
 export default {
-  name: 'Calculator'
+  name: 'Calculator',
+  data: function () {
+    return {
+      input: 0
+    }
+  },
+  methods: {
+    addDigit: function (digit) {
+      return (this.input === 0 && digit!== '.') ? this.input = digit : this.input += digit;
+    },
+    calculate: function () {
+      return this.input = eval(this.input);
+    },
+    cleanInput: function() {
+      return this.input = 0;
+    }
+  }
 }
 </script>
 
