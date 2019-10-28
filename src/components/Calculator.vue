@@ -1,7 +1,8 @@
 <template>
   <div class="calculator">
     <div class="calculator-input">
-      <input class="input" type="text" v-model="input"/>
+      <p class="input-formula">{{ formula }}</p>
+      <input class="input" type="text" maxlength="40" v-model="input" :class="{ 'small' : input.length > 12 }" disabled/>
     </div>
     <div class="buttons">
       <div class="row">
@@ -9,60 +10,60 @@
           <button class="btn" @click="cleanInput()">AC</button>
         </div>
         <div class="col-1">
-          <button class="btn">+/-</button>
+          <button class="btn" @click="toggle()">+/-</button>
         </div>
         <div class="col-1">
           <button class="btn" disabled>%</button>
         </div>
         <div class="col-1">
-          <button class="btn btn-control" @click="addDigit('/')">/</button>
+          <button class="btn btn-control" @click="action('/')">/</button>
         </div>
       </div>
       <div class="row">
         <div class="col-1">
-          <button class="btn" @click="addDigit('7')">7</button>
+          <button class="btn" @click="addDigit(7)">7</button>
         </div>
         <div class="col-1">
-          <button class="btn" @click="addDigit('8')">8</button>
+          <button class="btn" @click="addDigit(8)">8</button>
         </div>
         <div class="col-1">
-          <button class="btn" @click="addDigit('9')">9</button>
+          <button class="btn" @click="addDigit(9)">9</button>
         </div>
         <div class="col-1">
-          <button class="btn btn-control" @click="addDigit('*')">x</button>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-1">
-          <button class="btn" @click="addDigit('4')">4</button>
-        </div>
-        <div class="col-1">
-          <button class="btn" @click="addDigit('5')">5</button>
-        </div>
-        <div class="col-1">
-          <button class="btn" @click="addDigit('6')">6</button>
-        </div>
-        <div class="col-1">
-          <button class="btn btn-control" @click="addDigit('-')">-</button>
+          <button class="btn btn-control" @click="action('*')">x</button>
         </div>
       </div>
       <div class="row">
         <div class="col-1">
-          <button class="btn" @click="addDigit('1')">1</button>
+          <button class="btn" @click="addDigit(4)">4</button>
         </div>
         <div class="col-1">
-          <button class="btn" @click="addDigit('2')">2</button>
+          <button class="btn" @click="addDigit(5)">5</button>
         </div>
         <div class="col-1">
-          <button class="btn" @click="addDigit('3')">3</button>
+          <button class="btn" @click="addDigit(6)">6</button>
         </div>
         <div class="col-1">
-          <button class="btn btn-control" @click="addDigit('+')">+</button>
+          <button class="btn btn-control" @click="action('-')">-</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-1">
+          <button class="btn" @click="addDigit(1)">1</button>
+        </div>
+        <div class="col-1">
+          <button class="btn" @click="addDigit(2)">2</button>
+        </div>
+        <div class="col-1">
+          <button class="btn" @click="addDigit(3)">3</button>
+        </div>
+        <div class="col-1">
+          <button class="btn btn-control" @click="action('+')">+</button>
         </div>
       </div>
       <div class="row">
         <div class="col-2">
-          <button class="btn" @click="addDigit('0')">0</button>
+          <button class="btn" @click="addDigit(0)">0</button>
         </div>
         <div class="col-1">
           <button class="btn" @click="addDigit('.')">,</button>
@@ -80,18 +81,38 @@ export default {
   name: 'Calculator',
   data: function () {
     return {
-      input: 0
+      input: 0,
+      formula: ''
     }
   },
   methods: {
     addDigit: function (digit) {
       return (this.input === 0 && digit!== '.') ? this.input = digit : this.input += digit;
     },
+    action: function(action) {
+      if (this.formula.length) {
+        this.formula = this.input;
+      }
+      else {
+        this.formula += this.input;
+      }
+      this.formula += action;
+      this.input = 0;
+    },
     calculate: function () {
-      return this.input = eval(this.input);
+      this.formula += this.input;
+      this.input = eval(this.formula);
     },
     cleanInput: function() {
-      return this.input = 0;
+      if (this.input === 0) {
+        this.formula = ''; 
+      }
+      else {
+        this.input = 0;
+      }
+    },
+    toggle: function() {
+      return this.input = this.input*(-1);
     }
   }
 }
@@ -120,6 +141,16 @@ export default {
   background: none;
   text-align: right;
   font-weight: 300;
+  height: 40px;
+}
+.small {
+  font-size: 24px;
+}
+.input-formula {
+  height: 20px;
+  font-size: 18px;
+  color: #cccccc;
+  text-align: right;
 }
 .row {
   display: flex;
