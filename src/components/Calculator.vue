@@ -116,6 +116,7 @@ export default {
     calculate: function() {
       this.formula += this.input;
       this.input = eval(this.formula);
+      this.formula = "";
     },
     cleanInput: function() {
       if (this.input === 0) {
