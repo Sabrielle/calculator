@@ -28,13 +28,13 @@
       </div>
       <div class="row">
         <div class="col-1">
-          <button class="btn" @click="addDigit(7)">7</button>
+          <button class="btn" @click="addDigit('7')">7</button>
         </div>
         <div class="col-1">
-          <button class="btn" @click="addDigit(8)">8</button>
+          <button class="btn" @click="addDigit('8')">8</button>
         </div>
         <div class="col-1">
-          <button class="btn" @click="addDigit(9)">9</button>
+          <button class="btn" @click="addDigit('9')">9</button>
         </div>
         <div class="col-1">
           <button class="btn btn-control" @click="action('*')">x</button>
@@ -42,13 +42,13 @@
       </div>
       <div class="row">
         <div class="col-1">
-          <button class="btn" @click="addDigit(4)">4</button>
+          <button class="btn" @click="addDigit('4')">4</button>
         </div>
         <div class="col-1">
-          <button class="btn" @click="addDigit(5)">5</button>
+          <button class="btn" @click="addDigit('5')">5</button>
         </div>
         <div class="col-1">
-          <button class="btn" @click="addDigit(6)">6</button>
+          <button class="btn" @click="addDigit('6')">6</button>
         </div>
         <div class="col-1">
           <button class="btn btn-control" @click="action('-')">-</button>
@@ -56,13 +56,13 @@
       </div>
       <div class="row">
         <div class="col-1">
-          <button class="btn" @click="addDigit(1)">1</button>
+          <button class="btn" @click="addDigit('1')">1</button>
         </div>
         <div class="col-1">
-          <button class="btn" @click="addDigit(2)">2</button>
+          <button class="btn" @click="addDigit('2')">2</button>
         </div>
         <div class="col-1">
-          <button class="btn" @click="addDigit(3)">3</button>
+          <button class="btn" @click="addDigit('3')">3</button>
         </div>
         <div class="col-1">
           <button class="btn btn-control" @click="action('+')">+</button>
@@ -73,7 +73,7 @@
           <button class="btn" @click="addDigit(0)">0</button>
         </div>
         <div class="col-1">
-          <button class="btn" @click="addDigit('.')">,</button>
+          <button class="btn" @click="addDigit('.')" :disabled="!hasDot">,</button>
         </div>
         <div class="col-1">
           <button class="btn btn-control" @click="calculate()">=</button>
@@ -92,6 +92,11 @@ export default {
       formula: ""
     };
   },
+  computed: {
+    hasDot: function () {
+      return String(this.input).indexOf(".") === -1
+    }
+  },
   methods: {
     addDigit: function(digit) {
       return this.input === 0 && digit !== "."
@@ -100,6 +105,7 @@ export default {
     },
     action: function(action) {
       if (this.formula.length) {
+        this.calculate();
         this.formula = this.input;
       } else {
         this.formula += this.input;
