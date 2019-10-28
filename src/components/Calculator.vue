@@ -2,7 +2,14 @@
   <div class="calculator">
     <div class="calculator-input">
       <p class="input-formula">{{ formula }}</p>
-      <input class="input" type="text" maxlength="40" v-model="input" :class="{ 'small' : input.length > 12 }" disabled/>
+      <input
+        class="input"
+        type="text"
+        maxlength="40"
+        v-model="input"
+        :class="{ 'small' : input.length > 12 }"
+        disabled
+      />
     </div>
     <div class="buttons">
       <div class="row">
@@ -78,44 +85,44 @@
 
 <script>
 export default {
-  name: 'Calculator',
-  data: function () {
+  name: "Calculator",
+  data: function() {
     return {
       input: 0,
-      formula: ''
-    }
+      formula: ""
+    };
   },
   methods: {
-    addDigit: function (digit) {
-      return (this.input === 0 && digit!== '.') ? this.input = digit : this.input += digit;
+    addDigit: function(digit) {
+      return this.input === 0 && digit !== "."
+        ? (this.input = digit)
+        : (this.input += digit);
     },
     action: function(action) {
       if (this.formula.length) {
         this.formula = this.input;
-      }
-      else {
+      } else {
         this.formula += this.input;
       }
       this.formula += action;
       this.input = 0;
     },
-    calculate: function () {
+    calculate: function() {
       this.formula += this.input;
       this.input = eval(this.formula);
     },
     cleanInput: function() {
       if (this.input === 0) {
-        this.formula = ''; 
-      }
-      else {
+        this.formula = "";
+      } else {
         this.input = 0;
       }
     },
     toggle: function() {
-      return this.input = this.input*(-1);
+      return (this.input = this.input * -1);
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -129,7 +136,7 @@ export default {
 }
 .calculator-input {
   padding: 30px;
-  background: #4C4C4C;
+  background: #4c4c4c;
 }
 .input {
   color: #cccccc;
@@ -168,24 +175,24 @@ export default {
   border: none;
   outline: none;
   cursor: pointer;
-  background: #D6D6D6;
-  border: 1px solid #AAAAAA;
+  background: #d6d6d6;
+  border: 1px solid #aaaaaa;
   padding: 15px;
   font-size: 28px;
   color: #000000;
 }
 .btn:active {
-  background: #D0D0D0;
+  background: #d0d0d0;
 }
 .btn:disabled {
-  background: #A0A0A0;
+  background: #a0a0a0;
   cursor: initial;
 }
 .btn-control {
-  background: #FF9900;
+  background: #ff9900;
   color: #ffffff;
 }
 .btn-control:active {
-  background: #FFAA22;
+  background: #ffaa22;
 }
 </style>
